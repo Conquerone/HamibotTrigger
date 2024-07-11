@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: '10 8,12,13,18 * * *'  
+    - cron: '10 8,12,13,18 * * *'
 
 jobs:
   run_python_script:
@@ -15,11 +15,11 @@ jobs:
         with:
           python-version: 3.x
 
-      - name: 安装依赖环境
+      - name: Install dependencies
         run: |
           pip install -r requirements.txt
 
-      - name: 获取参数
+      - name: Get variables
         id: get_variables
         run: |
           WORKFLOW_PATH="${{ github.workflow }}"
@@ -29,7 +29,7 @@ jobs:
           WORKFLOW_NAME=${WORKFLOW_NAME^^}
           echo "WORKFLOW_NAME=$WORKFLOW_NAME" >> $GITHUB_OUTPUT
 
-      - name: 运行Python脚本
+      - name: Run Python script
         run: |
           echo "${{ steps.get_variables.outputs.WORKFLOW_NAME }}"
-          python DevRunTrigger.py ${{ secrets.HAMIBOT_TOKEN }} '${{ vars.HAMIBOT_PARAS }}' ${{ steps.get_variables.outputs.WORKFLOW_NAME }} ${{ vars.WECHAT_UID }}
+          python DevRunTrigger.py "${{ secrets.HAMIBOT_TOKEN }}" "${{ vars.HAMIBOT_PARAS }}" "${{ steps.get_variables.outputs.WORKFLOW_NAME }}" "${{ vars.WECHAT_UID }}"
